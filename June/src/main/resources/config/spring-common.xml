@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+    <beans xmlns="http://www.springframework.org/schema/beans"  
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xmlns:mvc="http://www.springframework.org/schema/mvc"  
+        xsi:schemaLocation="http://www.springframework.org/schema/beans  
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd 
+        ">  
+         
+        <!-- 配置数据源 -->  
+        <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >  
+            <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>  
+            <property name="url" value="jdbc:mysql://localhost/june?&amp;characterEncoding=utf8"></property>  
+            <property name="username" value="root"></property>  
+            <property name="password" value="123456"></property>  
+        </bean>  
+          
+        <!-- 配置SessionFactory -->  
+        <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">  
+            <property name="dataSource" ref="dataSource" />  
+            <property name="hibernateProperties">  
+                <props>  
+                    <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>  
+                    <prop key="hibernate.hbm2ddl.auto">update</prop>  
+                    <prop key="hibernate.show_sql">true</prop>  
+                    <prop key="hibernate.format_sql">true</prop>  
+                </props>  
+            </property>  
+            <!-- 配置映射扫描的包 -->
+            <property name="mappingLocations">  
+                <list>  
+                    <value>classpath*:entity/*.hbm.xml</value>  
+                </list>  
+            </property>  
+        </bean>  
+          
+        <!-- 配置一个事务管理器 -->  
+        <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">  
+            <property name="sessionFactory" ref="sessionFactory"/>  
+        </bean>  
+          
+      <!--  声明式容器事务管理 ,transaction-manager指定事务管理器为transactionManager -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="save*" propagation="REQUIRED" />
+            <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="del*" propagation="REQUIRED" />
+            <tx:method name="*" read-only="true" />
+        </tx:attributes>
+    </tx:advice>
+    
+    <aop:config expose-proxy="true">
+        <!-- 只对业务逻辑层实施事务 -->
+        <aop:pointcut id="txPointcut" expression="execution(* com.shop.service.impl.*.*(..))" />
+        <!-- Advisor定义，切入点和通知分别为txPointcut、txAdvice -->
+        <aop:advisor pointcut-ref="txPointcut" advice-ref="txAdvice"/>
+    </aop:config>
+                <!-- - 表示抛出该异常时需要回滚     +表示即使抛出该异常事务同样要提交 
+        但不是说只抛出ApplicationException 异常时，事务才回滚，如果程序抛出RuntimeException和Error时，事务一样会回滚，即使这里没有配置。
+        因为Spring中默认对所有的RuntimeException和Error都会回滚事务。
+        -->        
+        
+        <bean id="BaseDao" abstract="true">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>       
+    </beans>  

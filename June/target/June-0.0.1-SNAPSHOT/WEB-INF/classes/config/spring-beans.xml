@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+    <!-- <beans xmlns="http://www.springframework.org/schema/beans"  
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+        xmlns:context="http://www.springframework.org/schema/context"  
+        xmlns:mvc="http://www.springframework.org/schema/mvc"  
+        xsi:schemaLocation="http://www.springframework.org/schema/beans   
+        http://www.springframework.org/schema/beans/spring-beans.xsd">  
+          
+          <import resource="classpath*:config/spring-common.xml" />
+        
+          <bean id="proContion" class="com.shop.view.ProCondition"></bean>
+          <bean id="page" class="com.shop.view.Page"></bean>
+          <bean id="userDao" class="com.shop.dao.impl.UserDaoImpl" parent="BaseDao"></bean>
+       	  <bean id="productDao" class="com.shop.dao.impl.ProductDaoImpl" parent="BaseDao"></bean>
+       	  <bean id="adminDao" class="com.shop.dao.impl.AdminDaoImpl" parent="BaseDao"></bean>
+       	  <bean id="categoryDao" class="com.shop.dao.impl.CategoryDaoImpl" parent="BaseDao"></bean>
+       	  <bean id="brandDao" class="com.shop.dao.impl.BrandDaoImpl" parent="BaseDao"></bean>
+       	  <bean id="indexDao" class="com.shop.dao.impl.IndexDaoImpl" parent="BaseDao"></bean>
+       	  <bean id="orderDao" class="com.shop.dao.impl.OrderDaoImpl" parent="BaseDao"></bean>
+       	  <bean id="webService" class="com.shop.service.impl.WebServiceImpl">
+       	  	<property name="userDao" ref="userDao"></property>
+       	  	<property name="productDao" ref="productDao"></property>
+       	  	<property name="adminDao" ref="adminDao"></property>
+       	  	<property name="categoryDao" ref="categoryDao"></property>
+       	  	<property name="brandDao" ref="brandDao"></property>
+       	  	<property name="indexDao" ref="indexDao"></property>
+       	  </bean>
+       	  
+       	  <bean id="bgService" class="com.shop.service.impl.BgServiceImpl">
+       	  	<property name="userDao" ref="userDao"></property>
+       	  	<property name="productDao" ref="productDao"></property>
+       	  	<property name="categoryDao" ref="categoryDao"></property>
+       	  	<property name="brandDao" ref="brandDao"></property>
+       	  	<property name="indexDao" ref="indexDao"></property>
+       	  	<property name="orderDao" ref="orderDao"></property>
+       	  	<property name="adminDao" ref="adminDao"></property>
+       	  </bean>
+       	  
+       	  <bean id="userService" class="com.shop.service.impl.UserServiceImpl">
+       	  	<property name="userDao" ref="userDao"></property>
+       	  	<property name="productDao" ref="productDao"></property>
+       	  	<property name="categoryDao" ref="categoryDao"></property>
+       	  	<property name="brandDao" ref="brandDao"></property>
+       	  	<property name="indexDao" ref="indexDao"></property>
+       	  	<property name="orderDao" ref="orderDao"></property>
+       	  </bean>
+    </beans>   -->
